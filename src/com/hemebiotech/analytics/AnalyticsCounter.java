@@ -1,36 +1,55 @@
 package com.hemebiotech.analytics;
 
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.List;
+import java.util.TreeMap;
+import java.util.HashMap;
 import java.io.IOException;
 
 /**
-* Analyse la liste de chaine de caractères des symptômes présents dans le fichier source retournée par la classe ReadSymptomDataFile    
-* et trie les symptomes et ajoute les occurences avec une TreeMap pour les envoyer vers WriteSymptomDataToFile pour qu'ils soient écrits dans un fichier.
+* Refactorisation : création du constructeur et de 4 méthodes qui séparent les divers traitements de la donnée.
+* Lire les données(getSymptoms), compter les occurrences(countSymptoms), trier les données(sortSymptoms), écrire les données(writeSymptoms).
 * @see ISymptomReader
+* @see ISymptomWriter
 * @see ReadSymptomDataFromFile
+* @see WriteSymptomDataToFile
 */
+
 public class AnalyticsCounter {
-    public static void main(String args[]) {
-        try {
-            ISymptomReader reader = new ReadSymptomDataFromFile("symptoms.txt");
-            ISymptomWriter writer = new WriteSymptomDataToFile("result.out");
-
-            List<String> symptomsReader = reader.getSymptoms();
-
-            Map<String, Integer> symptomsCounter = new TreeMap<>();
-
-            for (String symptom : symptomsReader) {
-                if (symptom != null && !symptom.isBlank()) {
-                    symptomsCounter.put(symptom, symptomsCounter.getOrDefault(symptom, 0) + 1);
-                }
+    private final ISymptomReader reader;
+    private final ISymptomWriter writer;
+    
+    public AnalyticsCounter(ISymptomReader reader, ISymptomWriter writer) { 
+        this.reader = reader;
+        this.writer = writer;
+    }
+    
+    public List<String> getSymptoms() {
+        return reader.getSymptoms();
+    }
+    
+    public Map<String, Integer> countSymptoms(List<String> symptoms) { 
+        Map<String, Integer> counterSymptoms = new HashMap<>();
+        for (String symptom : symptoms) {
+            if (symptom != null && !symptom.isBlank()) {
+                counterSymptoms.put(symptom, counterSymptoms.getOrDefault(symptom, 0) + 1);
             }
-
-            writer.writeSymptoms(symptomsCounter);
-
+        }
+    
+    return counterSymptoms;
+    }
+    
+    public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
+        return new TreeMap<>(symptoms);
+    }
+    
+    public void writeSymptoms(Map<String, Integer> symptoms) {
+        try {
+            writer.writeSymptoms(symptoms);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public static void main(String args[]) {}
 }

@@ -8,8 +8,14 @@ import java.util.HashMap;
 import java.io.IOException;
 
 /**
-* Refactorisation : création du constructeur et de 4 méthodes qui séparent les divers traitements de la donnée.
-* Lire les données(getSymptoms), compter les occurrences(countSymptoms), trier les données(sortSymptoms), écrire les données(writeSymptoms).
+* La classe AnalyticsCounter contient les 4 méthodes permettant la demande de récupération, le traitement et la demande d'écriture des données, 
+* utilisant les deux interfaces et leurs méthodes concrètes pour action.
+*
+* @param ISymptomReader : Déclare un reader de l'interface ISymptomReader pour affectuer la valeur reader dans le constructeur de la classe. 
+*                         Le reader va nous permettre d'appeler la méthode getSymptoms() qui effectue la lecture du fichier source.
+* @param ISymptomWriter : Déclare un writer de l'interface ISymptomReader pour affectuer la valeur writer dans le constructeur.
+*                         Le Writer va nous permettre d'appeler la méthode writeSymptoms() qui effectue l'écriture dans le fichier cible.
+* 
 * @see ISymptomReader
 * @see ISymptomWriter
 * @see ReadSymptomDataFromFile
@@ -51,17 +57,4 @@ public class AnalyticsCounter {
             e.printStackTrace();
         }
     }
-
-    public static void main(String args[]) throws IOException {
-       
-        
-        ISymptomReader reader = new ReadSymptomDataFromFile("symptoms.txt"); 
-        ISymptomWriter writer = new WriteSymptomDataToFile("result.out");
-        AnalyticsCounter analyticsCounter = new AnalyticsCounter(reader, writer);
-        List<String> symptoms = analyticsCounter.getSymptoms();
-        Map<String, Integer> countedSymptoms = analyticsCounter.countSymptoms(symptoms);
-        Map<String, Integer> sortedSymptoms = analyticsCounter.sortSymptoms(countedSymptoms);
-        analyticsCounter.writeSymptoms(sortedSymptoms);
-    }
 }
-    

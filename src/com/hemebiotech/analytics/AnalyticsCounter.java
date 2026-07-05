@@ -2,6 +2,7 @@ package com.hemebiotech.analytics;
 
 import java.util.Map;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.HashMap;
 import java.io.IOException;
@@ -51,5 +52,16 @@ public class AnalyticsCounter {
         }
     }
 
-    public static void main(String args[]) {}
+    public static void main(String args[]) throws IOException {
+       
+        
+        ISymptomReader reader = new ReadSymptomDataFromFile("symptoms.txt"); 
+        ISymptomWriter writer = new WriteSymptomDataToFile("result.out");
+        AnalyticsCounter analyticsCounter = new AnalyticsCounter(reader, writer);
+        List<String> symptoms = analyticsCounter.getSymptoms();
+        Map<String, Integer> countedSymptoms = analyticsCounter.countSymptoms(symptoms);
+        Map<String, Integer> sortedSymptoms = analyticsCounter.sortSymptoms(countedSymptoms);
+        analyticsCounter.writeSymptoms(sortedSymptoms);
+    }
 }
+    

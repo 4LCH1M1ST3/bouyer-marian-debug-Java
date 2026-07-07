@@ -3,26 +3,34 @@ package com.hemebiotech.analytics;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.File;
-import java.io.IOException;
-import java.util.TreeMap;
 import java.util.Map;
+import java.util.TreeMap;
+import java.io.IOException;
+
 /**
-* la Classe WriteSymptomDataToFile permet de déterminer le fichier de sortie avec le constructeur et avec la méthode writeSymptoms
-* écrit dans le ficher de sortie les symptomes triées grâce à la TreeMap obtenue en paramètre.
-*
-*@see ISymptomWriter.java
-*@see AnalyticsCounter.java
+* la classe WriteSymptomDataToFile écrit les données dans un fichier cible. 
+* la classe initialise une chaîne de caractère qui va contenir le chemin relatif ou absolu du fichier cible.
+* @see ISymptomWriter
 */
 
 public class WriteSymptomDataToFile implements ISymptomWriter {
+    private String filepath;
 
-    	private String filepath;
+    /**
+    * Construit le chemin d'accès au fichier cible
+    * @param filepath contient le chemin relatif ou absolu du fichier cible.
+    /*
 
     public WriteSymptomDataToFile (String filepath) {
         this.filepath = filepath;
     }
 
-@Override
+    /**
+    * la méthode writeSymptoms écrit dans le fichier cible, ligne par ligne, le contenu de chaque clé/valeur de la Map.
+    * @param symptoms contient la liste de tous les symptomes triés par ordre alphabétique, dédoublonnés avec leurs occurences.
+    */
+    
+    @Override
     public void writeSymptoms(Map<String, Integer> symptoms) throws IOException {
         if (filepath != null && symptoms != null) {
             try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(filepath)))) {

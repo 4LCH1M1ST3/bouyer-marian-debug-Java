@@ -4,20 +4,20 @@ import java.util.Map;
 import java.util.List;
 import java.io.IOException;
 
-/** La Classe Main utilise les contrats des deux interfaces ISymptomReader et ISymptomWriter pour instancier les méthodes qui réalisent les actions
+/** La Classe Main utilise les contrats des deux interfaces ISymptomReader et ISymptomWriter pour appeler les méthodes conrètes qui réalisent les actions
 *   de lecture et d'ecriture des données. La Classe Main utilise aussi les méthodes de la classe AnalyticsCounter pour les différents traitements des données.
-*
-* @param reader           : Objet permettant l'affectation du fichier source pour lecture.
-* @param writer           : Objet permettant l'affectation du fichier cible pour écriture.
-* @param analiticsCounter : l'Objet de Classe AnalyticsCounter nous permet de faire appel à 5 fonctions : demander la récupération les symptomes depuis le fichier, 
-*                           affectuer la récupération des symptomes à une liste de type chaine de caractère, compter les occurences à l'aide d'une HashMap, 
-*                           trier les les symptomes par ordre alphabétique avec une TreeMap, et demander l'écriture des symptomes occurés et triés dans un fichier.
-* @param symptoms         : Objet de type List qui contient la liste non triée et doublonnée des données du fichier source.
-* @param countedSymptoms  : Objet de type Map qui contient la récupération des données du fichier source.
-* @param sortedSymptoms   : Objet de type Map qui contient les données non triées avec leurs occurences.
-*
+* reader           : Objet permettant l'affectation du fichier source et la lecture des données.
+* writer           : Objet permettant l'affectation du fichier cible et l'écriture dans le fichier cible.
+* analiticsCounter : l'Objet de Classe AnalyticsCounter nous permet de faire appel à 5 fonctions : demander la récupération des symptomes depuis le fichier, 
+*                    effectuer la récupération des symptomes vers une liste de type chaine de caractère, compter les occurences à l'aide d'une HashMap, 
+*                    trier les les symptomes par ordre alphabétique avec une TreeMap, et demander l'écriture des symptomes occurés et triés dans un fichier.
+* symptoms         : Objet de type List qui contient les données non triée et doublonnée du fichier source.
+* countedSymptoms  : Objet de type HashMap qui contient les données non triée et dédoublonnée issue de la liste symptoms.
+* sortedSymptoms   : Objet de type TreeMap qui contient les données triées avec leurs occurences issue de la HashMap countedSymptoms.
 * @see ISymptomReader
+* @see ReadSymptomDataFromFile
 * @see ISymptomWriter
+* @see WriteSymptomDataToFile
 * @see AnalyticsCounter
 */
 

@@ -4,18 +4,16 @@ import java.util.Map;
 import java.io.IOException;
 
 /**
- * Anything that will write symptom data to a file
- * The important part is, the return value from the operation, which is a Map of strings and Integer.
- * No duplication
- * 
- * The implementation order the list.
- * 
- */
+* Écrit les symptomes dans un fichier cible.  
+* @see WriteSymptomDateToFile
+*/
+
 public interface ISymptomWriter {
-	/**
-	 * If no data is available, return an empty List
-	 * 
-	 * 
-	 */
-	void writeSymptoms(Map<String, Integer> symptoms) throws IOException;
+    
+    /**
+    * Écrit les données formatées sous forme d'une Map qui n'autorise pas les doublons.
+    * @Exception IOException gère une possible levée d'exception pour une erreur lors de la création/ouverture du fichier et l'écriture des données.
+    */
+    
+    void writeSymptoms(Map<String, Integer> symptoms) throws IOException;
 }

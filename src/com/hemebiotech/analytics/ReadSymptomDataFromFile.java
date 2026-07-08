@@ -7,44 +7,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * la classe ReadSymptomDataFromFile qui lit les données ligne par ligne depuis un fichier source.
- * la classe instancie un objet de type String qui contient nom du fichier source.
- * @see ISymptomReader
- */
+* Lit les données de symptomes ligne par ligne depuis un fichier source.
+* Implémente le contrat ISymptomReader et retourne les symptomes sous forme de liste de chaîne de caractères.
+*
+* @see ISymptomReader
+*/
 
 public class ReadSymptomDataFromFile implements ISymptomReader {
-    private String filepath;
+    private final String filepath;
+    
     /**
-    * Construit le chemin d'accès au fichier source.
+    * Construit un lecteur de symptome à partir du chemin d'accès au fichier source.
+    *
     * @param filepath contient le chemin d'accès realatif ou absolu du fichier source.
-    */
+    */    
     
     public ReadSymptomDataFromFile (String filepath) {
         this.filepath = filepath;
     }
+
     /**
-    * La méthode getSymptoms lit les données depuis le fichier source ligne par ligne et les injecte dans une liste
-    * de chaîne de caractère
+    * Lit les données depuis le fichier source ligne par ligne et retourne les symptomes trouvés 
+    * dans une liste de chaîne de caractère.
     *
     * @return result retourne la liste de chaîne de caractère potentiellement doublonnée.
-    */
+    */    
     
     @Override
     public List<String> getSymptoms() {
-        ArrayList<String> result = new ArrayList<String>();
-        if (filepath != null) {
-            try {
-                BufferedReader reader = new BufferedReader (new FileReader(filepath));
-		String line = reader.readLine();
-                while (line != null) {
-                    result.add(line);
-                    line = reader.readLine();
-                }
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        ArrayList<String> result = new ArrayList<>();
+        if (filepath == null) {
+            return result;
         }
-	return result;
+        try (BufferedReader reader = new BufferedReader (new FileReader(filepath))) {
+            String line = reader.readLine();
+            while (line != null) {
+                result.add(line);
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la lecture du fichier source.");
+            e.printStackTrace();
+        }
+        return result;
     }
 }

@@ -12,7 +12,7 @@ public interface ISymptomReader {
     
     /**
     * Lit les données formatées sous forme d'un liste de chaîne de caractères. 
-    * Cette liste de chaîne de caractère retrounée contient possiblement des doublons.
+    * Contient possiblement des doublons.
     */
     
     List<String> getSymptoms ();

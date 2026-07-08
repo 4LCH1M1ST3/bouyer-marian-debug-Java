@@ -1,18 +1,16 @@
 package com.hemebiotech.analytics;
 
-import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.Map;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.io.IOException;
 
 /**
-* La classe AnalyticsCounter contient les méthodes permettant le traitement des données en 4 étapes : Demander la récupération des données dans une List, 
-* compter les occurences des données (dédoublonnage), trier les données (par ordre alphabétique), demander l'écriture du résultat dans un fichier.
+* Traite les données en 4 méthodes : Demander la récupération des données dans une List, compter les occurences des données (dédoublonnage)
+* trier les données (par ordre alphabétique), demander l'écriture du résultat dans un fichier.
 *
-* La classe AnalyticsCounter initialise un objet reader et un objet writer utilisés pour les opération de lecture et d'écriture qui sont déléguées aux interfaces
-* ISymptomReader et ISymptomWriter.
+* La classe implémente les contrats ISymptomReader et ISymptomWriter utilisés pour les opération de lecture et d'écriture.
 *
 * @see ISymptomReader
 * @see ISymptomWriter
@@ -26,6 +24,7 @@ public class AnalyticsCounter {
 
     /**
     * Construit un analyseur de symptomes avec un lecteur et un écrivain.
+    *
     * @param reader lecteur utilisé pour récupérer les symptomes du fichier source.
     * @param writer écrivain utilisé pour produire le fichier de résultat.
     */    
@@ -36,8 +35,9 @@ public class AnalyticsCounter {
     }
     
     /**
-    * Méthode de type List de chaîne de caractère qui demande la lecture du fichier source qui est déléguée à l'interface ISymptomReader et sa classe concrète ReadSymptomDataFromFile.
-    * @return reader.getSymptoms renvoie une liste de chaine de caractère lue dans le fichier source.
+    * Demande la lecture du fichier source qui est déléguée à l'interface ISymptomReader et sa classe concrète ReadSymptomDataFromFile.
+    *
+    * @return reader.getSymptoms renvoie une liste de chaine de caractère lue depuis le fichier source.
     */    
     
     public List<String> getSymptoms() {
@@ -45,23 +45,23 @@ public class AnalyticsCounter {
     }
 
     /**
-    * Méthode qui compte les occurences par l'intermédiaire d'une HashMap.
-    * @return counterSymptoms renvoie une HashMap avec pour clé une chaine de caractère (symptômes) et pour valeur un Integer(occurence).
+    * Compte les occurences.
+    *
+    * @return counterSymptoms renvoie une HashMap avec pour clé les symptômes et pour valeur leurs occurences.
     */     
     
     public Map<String, Integer> countSymptoms(List<String> symptoms) { 
         Map<String, Integer> counterSymptoms = new HashMap<>();
-        for (String symptom : symptoms) {
-            if (symptom != null && !symptom.isBlank()) {
-                counterSymptoms.put(symptom, counterSymptoms.getOrDefault(symptom, 0) + 1);
-            }
-        }
-    return counterSymptoms;
+            symptoms.stream()
+                    .filter(symptom -> symptom != null && !symptom.isBlank())
+                    .forEach(symptom -> counterSymptoms.merge(symptom, 1, Integer::sum));
+        return counterSymptoms;
     }
 
     /**
-    * Méthode qui trie les symtomes par ordre alphabatique par l'intermédiaire d'une TreeMap.
-    * @return symptoms renvoie une TreeMap avec pour clé une chaine de caractère (symptômes) et pour valeur un Integer(occurence).
+    * Trie les symtomes par ordre alphabatique.
+    *
+    * @return symptoms renvoie une TreeMap avec pour clé les symptômes triés par ordre alphabétique et pour valeur leurs occurences.
     */
  
     public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
@@ -69,14 +69,16 @@ public class AnalyticsCounter {
     }
 
     /**
-    * Méthode qui demande l'écriture de la TreeMap dans le fichier cible, action déléguée à l'instance ISymptomWriter et sa classe concrète WriteSymptomDataéToFile.
-    * @Exception IOException gérer la possible levée d'exception si une erreur se produit lors de l'ouverture du fichier ou de l'écriture des données.
+    * Demande l'écriture de la TreeMap dans le fichier cible, action déléguée à l'instance ISymptomWriter et sa classe concrète WriteSymptomDataéToFile.
+    *
+    * @Exception IOException Gérer la possible levée d'exception si une erreur se produit lors de l'ouverture du fichier ou de l'écriture des données.
     */
     
     public void writeSymptoms(Map<String, Integer> symptoms) {
         try {
             writer.writeSymptoms(symptoms);
         } catch (IOException e) {
+            System.err.println("Erreur lors de l'écriture des données dans le fichier cible");
             e.printStackTrace();
         }
     }

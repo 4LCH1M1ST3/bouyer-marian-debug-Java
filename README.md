@@ -17,8 +17,8 @@ trie les résultats, écrit dans `result.out`.
 
 ## Installation/exécution
 ```bash
-git clone https://github.com/4LCH1M1ST3/bouyer-marian-debug-Java/tree/master
-cd src\com\hemebiotech\analytics
+git clone https://github.com/4LCH1M1ST3/bouyer-marian-debug-Java
+cd src/com/hemebiotech/analytics
 # lancer Main.java depuis l'IDE.
 ```
 

@@ -6,7 +6,7 @@ trie les résultats, écrit dans `result.out`.
 
 ## Fonctionnalités
 - lecture avec `ISymptomReader`.
-- comptage et trie avec `AnalyticsCounter`.
+- comptage et triage avec `AnalyticsCounter`.
 - écriture avec `ISymptomWriter`.
 
 ## Architecture
